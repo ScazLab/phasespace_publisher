@@ -12,9 +12,9 @@ endif()
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
              aruco
-             human_robot_collaboration_lib
              baxter_core_msgs
 	     geometry_msgs
+	     std_msgs
 	     message_generation
              cv_bridge
              image_transport
@@ -113,7 +113,7 @@ generate_messages(DEPENDENCIES
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
+  INCLUDE_DIRS lib/include
   LIBRARIES phasespace_publisher
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
@@ -122,6 +122,8 @@ catkin_package(
 ###########
 ## Build ##
 ###########
+
+ADD_DEFINITIONS ( -Wall -Wextra -Wno-unused-parameter -Werror)
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
@@ -139,8 +141,7 @@ add_subdirectory(lib)
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(phasespace_publisher     lib/include/phasespace_publisher/phasespace_publisher.h
-                                        src/phasespace_publisher/phasespace_publisher_node.cpp)
+add_executable(phasespace_publisher         src/phasespace_publisher/phasespace_publisher_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -154,7 +155,7 @@ add_dependencies(phasespace_publisher     ${${PROJECT_NAME}_EXPORTED_TARGETS}
                                           ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(phasespace_publisher                         ${catkin_LIBRARIES} )
+## target_link_libraries(phasespace_publisher                         ${catkin_LIBRARIES} )
 
 #############
 ## Install ##
@@ -171,7 +172,7 @@ install(PROGRAMS
 )
 
 ## Mark executables and/or libraries for installation
-install(TARGETS phasespace_publisher
+install(TARGETS
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
