@@ -1,4 +1,4 @@
-#include "phasespace_publisher.h"
+#include "phasespace_publisher/phasespace_publisher.h"
 
 using namespace std;
 
@@ -26,7 +26,7 @@ PhasespacePublisher::PhasespacePublisher (std::string name) :
     ROS_INFO("PhasespacePublisher created!");
 }
 
-void PhasespacePublisher::passMarkers(const human_robot_collaboration_msgs::PhasespacePtArray& markers)
+void PhasespacePublisher::passMarkers(const phasespace_publisher::PhasespacePtArray& markers)
 {
 
     // ROS_INFO("POINT %d: %.2f, %.2f, %.2f", markers.points[0].id,

@@ -1,4 +1,4 @@
-#include "phasespace_publisher.h"
+#include "phasespace_publisher/phasespace_publisher.h"
 
 using namespace std;
 

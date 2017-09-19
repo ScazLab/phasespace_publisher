@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "phasespace_publisher.h"
+#include "phasespace_publisher/phasespace_publisher.h"
 
 using namespace std;
 
@@ -8,13 +8,13 @@ TEST(PhasespaceTest, testPassPoints)
     PhasespacePublisher ps("ps_markers");
 
     ros::NodeHandle nh("phasespace_test");
-    ros::Publisher pub = nh.advertise<human_robot_collaboration_msgs::PhasespacePtArray>
+    ros::Publisher pub = nh.advertise<phasespace_publisher::PhasespacePtArray>
                                     ("/ps_markers/phasespace_points", SUBSCRIBER_BUFFER);
 
-    human_robot_collaboration_msgs::PhasespacePtArray msg;
-    human_robot_collaboration_msgs::PhasespacePt point_;
-    human_robot_collaboration_msgs::PhasespacePt point_2;
-    human_robot_collaboration_msgs::PhasespacePt point_3;
+    phasespace_publisher::PhasespacePtArray msg;
+    phasespace_publisher::PhasespacePt point_;
+    phasespace_publisher::PhasespacePt point_2;
+    phasespace_publisher::PhasespacePt point_3;
 
 
     point_.id = 0;

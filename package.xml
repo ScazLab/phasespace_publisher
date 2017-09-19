@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<package>
+<package format="2">
   <name>phasespace_publisher</name>
   <version>0.0.0</version>
   <description>The phasespace_publisher package</description>
@@ -40,8 +39,9 @@
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
 
-
+  <depend>human_robot_collaboration_lib</depend>
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->

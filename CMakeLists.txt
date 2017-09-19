@@ -11,16 +11,13 @@ endif()
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-             aruco
-             baxter_core_msgs
-	     geometry_msgs
-	     std_msgs
-	     message_generation
-             cv_bridge
-             image_transport
+             visualization_msgs
+             geometry_msgs
+             std_msgs
+             message_generation
              rosconsole
              roscpp
-             rospy
+             human_robot_collaboration_lib
              )
 
 ## System dependencies are found with CMake's conventions
@@ -79,8 +76,9 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(DEPENDENCIES
-		  std_msgs
+                  std_msgs
                   geometry_msgs
+                  visualization_msgs
 )
 
 ################################################
@@ -114,8 +112,8 @@ generate_messages(DEPENDENCIES
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS lib/include
-  LIBRARIES phasespace_publisher
-#  CATKIN_DEPENDS other_catkin_pkg
+  LIBRARIES phasespace_publisher robot_utils
+  CATKIN_DEPENDS human_robot_collaboration_lib
 #  DEPENDS system_lib
 )
 
@@ -152,11 +150,11 @@ add_executable(phasespace_publisher_node     lib/include/phasespace_publisher/ph
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(phasespace_publisher     ${${PROJECT_NAME}_EXPORTED_TARGETS}
-                                          ${catkin_EXPORTED_TARGETS})
+add_dependencies(phasespace_publisher_node      ${${PROJECT_NAME}_EXPORTED_TARGETS}
+                                            ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(phasespace_publisher_node                         ${catkin_LIBRARIES} )
+target_link_libraries(phasespace_publisher_node  phasespace_publisher ${catkin_LIBRARIES} )
 
 #############
 ## Install ##
