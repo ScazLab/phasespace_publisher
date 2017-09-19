@@ -19,7 +19,7 @@ add_library(phasespace_publisher  include/phasespace_publisher/phasespace_publis
 add_dependencies(phasespace_publisher ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(phasespace_publisher robot_utils ${catkin_LIBRARIES})
+target_link_libraries(phasespace_publisher   ${catkin_LIBRARIES})
 
 ## Mark libraries for installation
 install (TARGETS phasespace_publisher
