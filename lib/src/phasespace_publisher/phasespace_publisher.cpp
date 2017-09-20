@@ -34,7 +34,7 @@ void PhasespacePublisher::passMarkers(const phasespace_publisher::PhasespacePtAr
     //                                    markers.points[0].pt.y,
     //                                    markers.points[0].pt.z);
 
-    vector <RVIZMarker> rviz_markers;
+    std::vector <RVIZMarker> rviz_markers;
 
     std::vector<geometry_msgs::Point> _points;
 

@@ -12,6 +12,7 @@ TEST(PhasespaceTest, testPassPoints)
                                     ("/ps_markers/phasespace_points", SUBSCRIBER_BUFFER);
 
     phasespace_publisher::PhasespacePtArray msg;
+
     phasespace_publisher::PhasespacePt point_;
     phasespace_publisher::PhasespacePt point_2;
     phasespace_publisher::PhasespacePt point_3;
@@ -32,25 +33,29 @@ TEST(PhasespaceTest, testPassPoints)
     point_3.pt.y = -1.5;
     point_3.pt.z = -2.5;
 
-
     msg.points.push_back(point_);
     msg.points.push_back(point_2);
     msg.points.push_back(point_3);
 
     ros::Rate loop_rate(10);
-    while(ros::ok())
+
+
+    while(ros::ok() && (ps.getMarkers().size() == 0))
     {
         pub.publish(msg);
 
+        //ROS_INFO("Size: %d", ps.getMarkers().size());
+
         ros::spinOnce();
         loop_rate.sleep();
+
     }
 
     std::vector<RVIZMarker> markers = ps.getMarkers();
 
-    EXPECT_EQ(markers[0].points[0].x, 1.0);
-    EXPECT_EQ(markers[0].points[0].y, 2.0);
-    EXPECT_EQ(markers[0].points[0].z, 3.0);
+    EXPECT_EQ(markers[0].points[0].x, 1);
+    EXPECT_EQ(markers[0].points[0].y, 2);
+    EXPECT_EQ(markers[0].points[0].z, 3);
 
     EXPECT_EQ(markers[0].points[1].x, 0.5);
     EXPECT_EQ(markers[0].points[1].y, 1.5);
