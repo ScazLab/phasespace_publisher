@@ -153,8 +153,7 @@ add_dependencies(phasespace_publisher_node        ${${PROJECT_NAME}_EXPORTED_TAR
                                                   ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(phasespace_publisher_node   robot_utils
-                                                  phasespace_publisher
+target_link_libraries(phasespace_publisher_node   phasespace_publisher
                                                   ${catkin_LIBRARIES})
 
 #############
