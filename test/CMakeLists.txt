@@ -13,4 +13,4 @@ catkin_add_gtest(phasespace_test phasespace_test.cpp)
 # include directories to other targets when that is not necessary
 target_include_directories(phasespace_test PUBLIC ../lib/include/phasespace_publisher)
 
-target_link_libraries(phasespace_test ${catkin_LIBRARIES})
+target_link_libraries(phasespace_test phasespace_publisher ${catkin_LIBRARIES})
