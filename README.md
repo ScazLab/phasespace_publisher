@@ -5,9 +5,9 @@ Bridges the motion capture system PhaseSpace to ROS by providing a translation f
 
 ## Prerequisites
 * `ros`: Used ROS Indigo
-* `PhaseSpace': PhaseSpace motion caption system, available [here](phasespace.com). Phasespace has to run on Ubuntu 14.04. Phasespace has several dependencies, which you can download from their site:
-** `libowlsock_src`: To build this, cd into the extracted directory `libowlsock_src` and type "make". Copy the compiled `libowlsock.so` from `libowlsock_src` into your working directory.
-** `OWL SDK`: This is only compatible with Python 2.7. After you extract the tarball, copy the `_OWL.so` and `OWL.py` files into your working directory.
+* `PhaseSpace`: PhaseSpace motion caption system, available [here](phasespace.com). Phasespace has to run on Ubuntu 14.04. Phasespace has several dependencies, which you can download from their site:
+* `libowlsock_src`: To build this, cd into the extracted directory `libowlsock_src` and type "make". Copy the compiled `libowlsock.so` from `libowlsock_src` into your working directory.
+* `OWL SDK`: This is only compatible with Python 2.7. After you extract the tarball, copy the `_OWL.so` and `OWL.py` files into your working directory.
 * Python libraries: numpy, rospy
 
 
