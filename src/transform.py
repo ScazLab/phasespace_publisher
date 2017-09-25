@@ -13,6 +13,8 @@ from OWL import *
 from rospy.numpy_msg import numpy_msg
 from numpy.linalg import inv
 from geometry_msgs.msg import Point
+from phasespace_publisher.msg import PhasespacePt
+from phasespace_publisher.msg import PhasespacePtArray
 # from human_robot_collaboration.msg import PointsArray
 
 
@@ -54,7 +56,7 @@ def main_loop():
   time.sleep(5)
 
   # check what the message type should be
-  pub = rospy.Publisher("phasespace_points", Point, queue_size = 10)
+  pub = rospy.Publisher("/ps_markers/phasespace_points", Point, queue_size = 10)
   rospy.init_node("phaseSpace")
 
   while True:
@@ -85,23 +87,21 @@ def main_loop():
             print "%d) %.2f %.2f %.2f %.2f %.2f %.2f %.2f" % (rigids[i].id, rigids[i].pose[0], rigids[i].pose[1], rigids[i].pose[2], rigids[i].pose[3], rigids[i].pose[4], rigids[i].pose[5], rigids[i].pose[6])
 
 
-
+    final = PhasespacePtArray()
     if (num_markers > 0):
-      # new_points = [Point(0, 0, 0)]
       for i in range(num_markers):
         if (markers[i].cond > 0):
           orig = np.matrix([[markers[i].x], [markers[i].y], [markers[i].z], [1]])
-          new_pt = translate(orig)
-          publish(new_pt, pub)
-          # new_points.append(new_pt)
-      #print "TEST: ", new_points
+          new_pt = translate(orig, markers[i].id)
+          final.points.append(new_pt)
+      publish(final, pub)
 
 
   owlDone()
 
 
 
-def translate(orig):
+def translate(orig, marker_id):
   tx = 733
   ty = 1000
   tz = -1938-200
@@ -133,7 +133,10 @@ def translate(orig):
   print "NEW POINT: %.2f %.2f %.2f\n" % (new_pt[0], new_pt[1], new_pt[2])
 
   final_pt = Point(new_pt[0], new_pt[1], new_pt[2])
-  return final_pt;
+  final = PhasespacePt()
+  final.pt = final_pt
+  final.id = marker_id
+  return final;
 
 
 
