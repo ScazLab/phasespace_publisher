@@ -16,7 +16,7 @@ using namespace std;
 // };
 
 PhasespacePublisher::PhasespacePublisher (std::string name) :
-                                          nh(name), rviz_pub(name)
+                                          nh(name), rviz_pub(name + "phasespace_points")
 {
     phasespace_sub = nh.subscribe("phasespace_points",
                                   SUBSCRIBER_BUFFER,
@@ -29,10 +29,10 @@ PhasespacePublisher::PhasespacePublisher (std::string name) :
 void PhasespacePublisher::passMarkers(const phasespace_publisher::PhasespacePtArray& markers)
 {
 
-    // ROS_INFO("POINT %d: %.2f, %.2f, %.2f", markers.points[0].id,
-    //                                    markers.points[0].pt.x,
-    //                                    markers.points[0].pt.y,
-    //                                    markers.points[0].pt.z);
+    ROS_INFO("POINT %d: %.2f, %.2f, %.2f", markers.points[0].id,
+                                       markers.points[0].pt.x,
+                                       markers.points[0].pt.y,
+                                       markers.points[0].pt.z);
 
     std::vector <RVIZMarker> rviz_markers;
 

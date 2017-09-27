@@ -56,7 +56,7 @@ def main_loop():
   time.sleep(5)
 
   # check what the message type should be
-  pub = rospy.Publisher("/ps_markers/phasespace_points", Point, queue_size = 10)
+  pub = rospy.Publisher("/ps_markers/phasespace_points", PhasespacePtArray, queue_size = 10)
   rospy.init_node("phaseSpace")
 
   while True:
