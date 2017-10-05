@@ -58,7 +58,7 @@ def main_loop():
   pub = rospy.Publisher("/ps_markers/phasespace_points", PhasespacePtArray, queue_size = 10)
   rospy.init_node("phaseSpace")
 
-  while True:
+  while not rospy.is_shutdown():
     # Get markers
     markers = owlGetMarkers()
     num_markers = markers.size()
