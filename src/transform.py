@@ -22,7 +22,7 @@ from phasespace_publisher.msg import PhasespacePtArray
 MARKER_COUNT = 43 # max tracker id + 1
 SERVER_NAME = "192.168.1.7"
 #INIT_FLAGS = OWL_MODE2
-INIT_FLAGS = OWL_MODE1
+INIT_FLAGS = OWL_MODE1 | OWL_SLAVE
 
 def main():
   init_phasespace()
@@ -55,7 +55,6 @@ def main_loop():
   print "> CTRL+C to break"
   time.sleep(5)
 
-  # check what the message type should be
   pub = rospy.Publisher("/ps_markers/phasespace_points", PhasespacePtArray, queue_size = 10)
   rospy.init_node("phaseSpace")
 
@@ -132,7 +131,7 @@ def translate(orig, marker_id):
   new_pt = inv(transform) * orig
   print "NEW POINT: %.2f %.2f %.2f\n" % (new_pt[0], new_pt[1], new_pt[2])
 
-  final_pt = Point(new_pt[0], new_pt[1], new_pt[2])
+  final_pt = Point(new_pt[0]/100, new_pt[1]/100, new_pt[2]/100)
   final = PhasespacePt()
   final.pt = final_pt
   final.id = marker_id
