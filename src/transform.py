@@ -131,7 +131,7 @@ def translate(orig, marker_id):
   new_pt = inv(transform) * orig
   print "NEW POINT: %.2f %.2f %.2f\n" % (new_pt[0], new_pt[1], new_pt[2])
 
-  final_pt = Point(new_pt[0]/100, new_pt[1]/100, new_pt[2]/100)
+  final_pt = Point(new_pt[0]/1000, new_pt[1]/1000, new_pt[2]/1000)
   final = PhasespacePt()
   final.pt = final_pt
   final.id = marker_id
