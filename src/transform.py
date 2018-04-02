@@ -15,29 +15,29 @@ from numpy.linalg import inv
 from geometry_msgs.msg import Point
 from phasespace_publisher.msg import PhasespacePt
 from phasespace_publisher.msg import PhasespacePtArray
-# from human_robot_collaboration.msg import PointsArray
-
-
-# Phasespace configuration
-MARKER_COUNT = 43 # max tracker id + 1
-SERVER_NAME = "192.168.1.7"
-#INIT_FLAGS = OWL_MODE2
-INIT_FLAGS = OWL_MODE1 | OWL_SLAVE
 
 def main():
   init_phasespace()
   main_loop()
 
 def init_phasespace():
-  global SERVER_NAME, MARKER_COUNT, INIT_FLAGS
-  if (owlInit(SERVER_NAME, INIT_FLAGS) < 0):
+
+  # get PhaseSpace configuration
+  marker_count = rospy.get_param('/phasespace_publisher/marker_count', '43')
+  server_name = rospy.get_param('/phasespace_publisher/server_name', '192.168.1.6')
+  init_flags = rospy.get_param('/phasespace_publisher/init_flags', "OWL_MODE1")
+
+  # evaluate init flags to OWL global variable
+  init_flags = eval(init_flags)
+
+  if (owlInit(server_name, init_flags) < 0):
     print "init error: ", owlGetError()
     sys.exit(0)
 
   # Create tracker
   tracker = 0
   owlTrackeri(tracker, OWL_CREATE, OWL_POINT_TRACKER)
-  for i in range(MARKER_COUNT):
+  for i in range(marker_count):
       owlMarkeri(MARKER(tracker, i), OWL_SET_LED, i)
   # activate tracker
   owlTracker(tracker, OWL_ENABLE)
@@ -78,13 +78,14 @@ def main_loop():
       if (num_markers > 0):
         for i in range(num_markers):
           if (markers[i].cond > 0):
-            print "%d) %.2f %.2f %.2f" % (markers[i].id, markers[i].x, markers[i].y, markers[i].z)
+            marker_loc = "%d) %.2f %.2f %.2f" % (markers[i].id, markers[i].x, markers[i].y, markers[i].z)
+            rospy.logdebug(marker_loc)
 
       if (num_rigids > 0):
         for i in range(num_rigids):
           if (rigids[i].cond > 0):
-            print "%d) %.2f %.2f %.2f %.2f %.2f %.2f %.2f" % (rigids[i].id, rigids[i].pose[0], rigids[i].pose[1], rigids[i].pose[2], rigids[i].pose[3], rigids[i].pose[4], rigids[i].pose[5], rigids[i].pose[6])
-
+            rigid_loc =  "%d) %.2f %.2f %.2f %.2f %.2f %.2f %.2f" % (rigids[i].id, rigids[i].pose[0], rigids[i].pose[1], rigids[i].pose[2], rigids[i].pose[3], rigids[i].pose[4], rigids[i].pose[5], rigids[i].pose[6])
+            rospy.logdebug(ridid_loc)
 
     final = PhasespacePtArray()
     if (num_markers > 0):
@@ -93,7 +94,7 @@ def main_loop():
           orig = np.matrix([[markers[i].x], [markers[i].y], [markers[i].z], [1]])
           new_pt = translate(orig, markers[i].id)
           final.points.append(new_pt)
-      publish(final, pub)
+      pub.publish(final)
 
 
   owlDone()
@@ -115,44 +116,21 @@ def translate(orig, marker_id):
   rz = np.matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
 
   rotation = rz * ry * rx
-  # print "ROTATION: ", rotation
-  # rotation[1] = rotation[1] * -1
-  # print "ROTATION: ", rotation
 
   transform = np.matrix([[1, 0, 0, tx], [0, 1, 0, ty], [0, 0, 1, tz], [0, 0, 0, 1]])
-  # transform = np.matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
   trans_pt = inv(transform) * orig
-  # print "MOVED POINT: %.2f %.2f %.2f\n" % (trans_pt[0], trans_pt[1], trans_pt[2])
 
   transform[0:3, 0:3] = rotation
 
-  # print "ORIGINAL: ", orig
-
   new_pt = inv(transform) * orig
-  print "NEW POINT: %.2f %.2f %.2f\n" % (new_pt[0], new_pt[1], new_pt[2])
+  new_loc = "Transformed %d) %.2f %.2f %.2f" % (marker_id, new_pt[0], new_pt[1], new_pt[2])
+  rospy.logdebug(new_loc)
 
   final_pt = Point(new_pt[0]/1000, new_pt[1]/1000, new_pt[2]/1000)
   final = PhasespacePt()
   final.pt = final_pt
   final.id = marker_id
   return final;
-
-
-
-def publish(new_pt, pub):
-
-  rate = rospy.Rate(10)
-
-
-  # add a while not received
-  # while not rospy.is_shutdown():
-  try:
-    # rospy.loginfo(new_pt)
-    pub.publish(new_pt)
-    rate.sleep()
-
-  except rospy.ROSInterruptException:
-    pass
 
 
 def owl_print_error(s, n):

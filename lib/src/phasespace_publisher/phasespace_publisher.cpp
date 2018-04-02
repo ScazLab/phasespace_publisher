@@ -29,10 +29,11 @@ PhasespacePublisher::PhasespacePublisher (std::string name) :
 void PhasespacePublisher::passMarkers(const phasespace_publisher::PhasespacePtArray& markers)
 {
 
-    ROS_INFO("POINT %d: %.2f, %.2f, %.2f", markers.points[0].id,
-                                       markers.points[0].pt.x,
-                                       markers.points[0].pt.y,
-                                       markers.points[0].pt.z);
+    // ROS_INFO("POINT %d: %.2f, %.2f, %.2f", markers.points[0].id,
+    //                                    markers.points[0].pt.x,
+    //                                    markers.points[0].pt.y,
+    //                                    markers.points[0].pt.z);
+    // ROS_INFO("Passing markers");
 
     std::vector <RVIZMarker> rviz_markers;
 

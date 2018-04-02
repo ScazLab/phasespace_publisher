@@ -1,0 +1,14 @@
+<launch>
+    <arg name="marker_count"    default="43"/> <!-- max tracker ID + 1 -->
+    <arg name="server_name"     default="192.168.1.6"/>
+    <arg name="init_flags"      default="OWL_MODE1"/>
+
+    <param name="phasespace_publisher/marker_count" value="$(arg marker_count)"/>
+    <param name="phasespace_publisher/server_name"  value="$(arg server_name)"/>
+    <param name="phasespace_publisher/init_flags"   value="$(arg init_flags)"/>
+
+    <node pkg="phasespace_publisher" type="phasespace_publisher_node"
+        name="phasespace_publisher" output="screen" respawn="true"></node>
+    <node pkg="phasespace_publisher" type="transform.py" name="transform" output="screen"></node>
+
+</launch>
