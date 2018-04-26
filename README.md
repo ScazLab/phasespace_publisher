@@ -18,6 +18,9 @@ Bridges the motion capture system PhaseSpace to ROS by providing a translation f
 
 
 ## Installation
-Compile by running `catkin build`. Run `transform.py` and `phasespace_publisher_node.cpp` side by side, then open RVIZ to see the markers displayed alongside Baxter.
+Compile by running `catkin build phasespace_publisher`. Launch phasespace_publisher with `roslaunch phasespace_publisher phasespace_publisher.launch`. Then open RVIZ (`rosrun rviz rviz`) to see the markers relative to the robot space.
 
+To use PhaseSpace in another project, include phasespace in the launch file. Marker data is published to `/ps_markers/phasespace_points` in a PhaseSpacePtArray.
 
+You can also explore the PhaseSpace system with the Recap GUI (~/PhaseSpace/Recap/recap on the Baxter computer). Double-click on recap to open the program. In the OWL Config tab on the right, click the arrow next to "localhost" under Server Settings. Click "<find servers>" then select ps_server. Make sure the Mode is Default or 1. Click Connect in the top left corner. The markers and cameras will appear. The origin is marked on the lab floor with blue tape.
+The scripts folder in ~/PhaseSpace also has examples for using the PhaseSpace. In order to receive data from the markers, something must be run in "master" mode - so if a script uses "slave" mode, run Recap as well.
