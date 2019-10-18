@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(phasespace_publisher)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 if(CMAKE_COMPILER_IS_GNUCXX OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
     set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 endif()
@@ -100,6 +100,9 @@ generate_messages(DEPENDENCIES
 #   cfg/DynReconf2.cfg
 # )
 
+find_package(cmake_modules REQUIRED)
+find_package(Eigen REQUIRED)
+
 ###################################
 ## catkin specific configuration ##
 ###################################
@@ -112,7 +115,7 @@ generate_messages(DEPENDENCIES
 catkin_package(
   INCLUDE_DIRS lib/include
   LIBRARIES phasespace_publisher robot_utils
-#  DEPENDS system_lib
+  DEPENDS Eigen
 )
 
 ###########
@@ -124,7 +127,8 @@ ADD_DEFINITIONS ( -Wall -Wextra -Wno-unused-parameter -Werror)
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(lib/include)
-include_directories(SYSTEM ${catkin_INCLUDE_DIRS})
+include_directories(SYSTEM ${Eigen_INCLUDE_DIRS}
+                           ${catkin_INCLUDE_DIRS})
 
 ## Declare a C++ library
 add_subdirectory(lib)
@@ -151,7 +155,9 @@ add_dependencies(phasespace_publisher_node        ${${PROJECT_NAME}_EXPORTED_TAR
                                                   ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(phasespace_publisher_node   phasespace_publisher
+
+target_link_libraries(phasespace_publisher_node   robot_utils
+                                                  phasespace_publisher
                                                   ${catkin_LIBRARIES})
 
 #############

@@ -5,6 +5,7 @@ Bridges the motion capture system PhaseSpace to ROS by providing a translation f
 
 ## Prerequisites
 * `ros`: Used ROS Indigo
+* `Eigen`: you can install it with `sudo apt-get install libeigen3-dev`
 * `PhaseSpace`: PhaseSpace motion caption system, available [here](phasespace.com). Phasespace has to run on Ubuntu 14.04. Phasespace has several dependencies, which you can download from their site:
     * `libowlsock_src`: To build this, cd into the extracted directory `libowlsock_src` and type "make". Copy the compiled `libowlsock.so` from `libowlsock_src` into your working directory.
     * `OWL SDK`: This is only compatible with Python 2.7. After you extract the tarball, copy the `_OWL.so` and `OWL.py` files into your working directory.
@@ -19,6 +20,12 @@ Bridges the motion capture system PhaseSpace to ROS by providing a translation f
 
 ## Installation
 Compile by running `catkin build phasespace_publisher`. Launch phasespace_publisher with `roslaunch phasespace_publisher phasespace_publisher.launch`. Then open RVIZ (`rosrun rviz rviz`) to see the markers relative to the robot space.
+
+On the kuka machine, if you see errors such as `ImportError: libowlsock.so: cannot open shared object file: No such file or directory`, copy `libowlsock.so` and `_OWL.so` to `/opt/ros/indigo/lib`. And make sure you do:
+
+```bash
+sudo ldconfig /opt/ros/indigo/lib
+```
 
 To use PhaseSpace in another project, include phasespace in the launch file. Marker data is published to `/ps_markers/phasespace_points` in a PhaseSpacePtArray.
 
