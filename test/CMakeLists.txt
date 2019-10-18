@@ -3,7 +3,6 @@
 # CopyPolicy: Released under the terms of the LGPLv2.1.
 
 find_package(rostest            REQUIRED)
-find_package(baxter_description REQUIRED)
 
 ## Phasespace tests
 

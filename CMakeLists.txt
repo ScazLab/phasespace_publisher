@@ -17,7 +17,6 @@ find_package(catkin REQUIRED COMPONENTS
              message_generation
              rosconsole
              roscpp
-             human_robot_collaboration_lib
              )
 
 ## System dependencies are found with CMake's conventions
@@ -113,7 +112,6 @@ generate_messages(DEPENDENCIES
 catkin_package(
   INCLUDE_DIRS lib/include
   LIBRARIES phasespace_publisher robot_utils
-  CATKIN_DEPENDS human_robot_collaboration_lib
 #  DEPENDS system_lib
 )
 
