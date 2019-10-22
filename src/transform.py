@@ -91,8 +91,11 @@ def main_loop():
     if (num_markers > 0):
       for i in range(num_markers):
         if (markers[i].cond > 0):
-          orig = np.matrix([[markers[i].x], [markers[i].y], [markers[i].z], [1]])
-          new_pt = translate(orig, markers[i].id)
+          # orig = np.matrix([[markers[i].x], [markers[i].y], [markers[i].z], [1]])
+          # new_pt = translate(orig, markers[i].id)
+          new_pt = PhasespacePt()
+          new_pt.pt = Point(markers[i].x/1000, markers[i].y/1000, markers[i].z/1000)
+          new_pt.id = markers[i].id
           final.points.append(new_pt)
       pub.publish(final)
 
@@ -100,7 +103,7 @@ def main_loop():
   owlDone()
 
 
-
+# for Baxter
 def translate(orig, marker_id):
   tx = 733
   ty = 1000
